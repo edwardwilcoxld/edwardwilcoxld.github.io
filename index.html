@@ -38,14 +38,23 @@ footer img:hover{transform:scale(1.05);}
   </nav>
   <div class="light-beam"></div>
   <h1>Edward Wilcox</h1>
-  <p class="tagline">Designer | Programmer | Visual Storyteller</p>
+  <p class="tagline">Lighting Designer | Programmer | Technician</p>
 </header>
 
 <section>
   <h2>About Me</h2>
-  <div id="bio" class="bio-text">
-    Loading biography...
-  </div>
+  <p>Edward Wilcox is a GCSE student with a passion for theatrical lighting design.</p>
+<br>
+<p>He serves as Co-Lighting Designer at his school in Oxfordshire, designing lighting for school events and productions such as 'Joseph and the Amazing Technicolor Dreamcoat', 'The Addams Family', and the upcoming 'Legally Blonde'. He specialises in board programming, rigging, and creating effects with Zero88 FLX S48 and ETC Ion XE 20 consoles.</p>
+<br>
+<p>Edward volunteers at his local community theatre, working alongside experienced technicians and designers. He develops his skills in programming, rigging, design, and show operation, while learning to adapt to the fast-paced environment of live performance.</p>
+<br>
+<p>He is also a keen musician, growing up in a family of music players and amateur theatre performers. He is proficient on the drums and dabbles in piano. This musical background helps significantly with his lighting, giving him a natural sense of rhythm and timing, which is particularly valuable when programming cues for musicals and synchronising lights with music.</p>
+<br>
+<p>Edward trains new members of his school lighting team to confidently run live shows, from initial ideas right through to a polished performance. He takes pride in passing on his knowledge while also learning new techniques and ideas from his team members.</p>
+<br>
+<p>Edward is dedicated to developing his skills as a lighting designer. With experience in both school and community theatre, and a strong musical background, he aims to study lighting design to reach a professional level and pursue a career in the lighting industry.</p>
+
 </section>
 
 <footer>
@@ -55,24 +64,5 @@ footer img:hover{transform:scale(1.05);}
   </a>
   <p>© 2025 Edward Wilcox. All rights reserved.</p>
 </footer>
-
-<script>
-// Fetch ALPD biography dynamically
-async function fetchBiography() {
-  try {
-    const response = await fetch('https://www.thealpd.org.uk/edwardwilcox?tab=block-views-member-block-1', {mode:'cors'});
-    const text = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text,'text/html');
-    const bioSection = doc.querySelector('.views-field-field-biography');
-    document.getElementById('bio').innerHTML = bioSection ? bioSection.innerHTML : 'Biography not available.';
-  } catch(err){
-    console.error('Failed to fetch biography:', err);
-    document.getElementById('bio').innerHTML = 'Biography could not be loaded.';
-  }
-}
-window.addEventListener('load', fetchBiography);
-</script>
-
 </body>
 </html>
