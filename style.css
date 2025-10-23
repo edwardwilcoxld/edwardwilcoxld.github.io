@@ -1,0 +1,63 @@
+body {
+  background-color: #0b0b0b;
+  color: #f0f0f0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #222, #000);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #ffe066;
+}
+
+nav a {
+  color: #f0f0f0;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover,
+nav a.active {
+  color: #ffe066;
+}
+
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.project {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1.5rem;
+}
+
+.project img {
+  width: 100%;
+  max-width: 300px;
+  margin-right: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.project div {
+  flex: 1;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #111;
+  font-size
