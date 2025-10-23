@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Edward Wilcox Lighting Design</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects – Edward Wilcox</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden;}
+header{position:relative;min-height:50vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
+nav{position:absolute;top:20px;right:30px;}
+nav a{color:#ffdd44;text-decoration:none;margin-left:20px;font-weight:500;transition:0.3s;}
+nav a:hover{color:#fff;}
+section{padding:60px 20px;text-align:center;}
+section h2{font-size:2.5rem;margin-bottom:40px;position:relative;display:inline-block;}
+section h2::after{content:"";position:absolute;bottom:-10px;left:50%;width:60px;height:3px;background:#ffdd44;transform:translateX(-50%);}
+.shows{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;}
+.show{width:300px;background:#111;border-radius:15px;box-shadow:0 0 20px rgba(255,255,255,0.1);overflow:hidden;transform:translateY(40px);opacity:0;animation:floatUp 1.5s ease forwards;cursor:pointer;transition:transform 0.3s ease,box-shadow 0.3s ease;}
+.show:hover{transform:translateY(-5px);box-shadow:0 0 30px rgba(255,221,68,0.3);}
+.show:nth-child(1){animation-delay:0.3s;}
+.show:nth-child(2){animation-delay:0.6s;}
+.show:nth-child(3){animation-delay:0.9s;}
+.show:nth-child(4){animation-delay:1.2s;}
+@keyframes floatUp{to{transform:translateY(0);opacity:1;}}
+.show img{width:100%;height:200px;object-fit:cover;}
+.show h3{margin:15px 0;color:#ffdd44;}
+.show p{color:#ccc;padding:0 15px 20px;font-size:0.9rem;}
+footer{background:#111;padding:40px 0;text-align:center;font-size:0.9rem;color:#bbb;}
+footer img{transition:transform 0.3s ease;}
+footer img:hover{transform:scale(1.05);}
+.lightbox{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(5px);align-items:center;justify-content:center;animation:fadeIn 0.4s ease;}
+.lightbox-content{background:#111;padding:30px;border-radius:15px;max-width:600px;width:90%;box-shadow:0 0 30px rgba(255,221,68,0.3);animation:scaleIn 0.3s ease;text-align:left;position:relative;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes scaleIn{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.lightbox-content h2{color:#ffdd44;margin-bottom:15px;}
+.lightbox-content p{color:#ddd;margin-bottom:20px;}
+.close-btn{background:none;border:2px solid #ffdd44;color:#ffdd44;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:1rem;transition:0.3s;}
+.close-btn:hover{background:#ffdd44;color:#000;}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Projects</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="projects.html" class="active">Projects</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="project">
-      <img src="images/joseph.jpg" alt="Joseph and the Amazing Technicolor Dreamcoat lighting design">
-      <div>
-        <h2>Joseph and the Amazing Technicolor Dreamcoat</h2>
-        <p>Lighting design and programming for Wallingford School’s 2025 production. 
-        Created dynamic chases, colour washes, and custom rainbow effects using the FLX S48 board.</p>
-      </div>
-    </section>
+<header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+  </nav>
+  <h1>Lighting Projects</h1>
+</header>
 
-    <section class="project">
-      <img src="images/addams.jpg" alt="The Addams Family lighting design">
-      <div>
-        <h2>The Addams Family</h2>
-        <p>Designed moody and colourful lighting for the school’s 2024 musical, 
-        voted the best moment of the year. Used submasters to adapt to last-minute scene changes.</p>
-      </div>
-    </section>
+<section id="shows">
+  <h2>Selected Productions</h2>
+  <div class="shows">
+    <!-- Each .show block -->
+    <div class="show" onclick="openLightbox('christie')">
+      <img src="images/christie.jpg" alt="Agatha Christie Thrillers">
+      <h3>Agatha Christie Thrillers</h3>
+      <p>Two plays full of mystery and intrigue – each with its own lighting world, from hospital corridors to seaside cottages.</p>
+    </div>
 
-    <section class="project">
-      <img src="images/christmas.jpg" alt="Christmas Concert lighting">
-      <div>
-        <h2>Christmas Concert</h2>
-        <p>Festive lighting with reds, greens, and whites to create a cosy atmosphere, 
-        inspired by TV shows like <em>Strictly Come Dancing</em>.</p>
-      </div>
-    </section>
-  </main>
+    <div class="show" onclick="openLightbox('joseph')">
+      <img src="images/joseph.jpg" alt="Joseph and the Amazing Technicolor Dreamcoat">
+      <h3>Joseph and the Amazing Technicolor Dreamcoat</h3>
+      <p>A vibrant musical perfect for dramatic and bold lighting choices. And who can forget all the colours on Joseph’s coat!</p>
+    </div>
 
-  <footer>
-    <p>© 2025 Edward Wilcox | Hosted on GitHub Pages</p>
-  </footer>
+    <div class="show" onclick="openLightbox('addams')">
+      <img src="images/addams.jpg" alt="The Addams Family">
+      <h3>The Addams Family</h3>
+      <p>Capturing the gothic charm of the Addams universe, with moody hues and rhythmic chases to match the comedy-horror tone.</p>
+    </div>
+
+    <div class="show" onclick="openLightbox('wimc')">
+      <img src="images/wimc.jpg" alt="Where is Mrs Christie">
+      <h3>Where is Mrs Christie</h3>
+      <p>A new play detailing the mystery of the world's most prolific murder mystery author Agatha Christie.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Lightboxes -->
+<div id="lightbox-christie" class="lightbox">
+  <div class="lightbox-content">
+    <h2>Agatha Christie Thrillers</h2>
+    <p>These two plays were an exciting contrast – one set in a sterile hospital, the other in a seaside retreat. Each demanded unique lighting moods: cold blues and clinical whites for one; warm ambers and textured gobos for the other. I used precise cue timing to heighten suspense in every twist.</p>
+    <button class="close-btn" onclick="closeLightbox('christie')">Close</button>
+  </div>
+</div>
+
+<div id="lightbox-joseph" class="lightbox">
+  <div class="lightbox-content">
+    <h2>Joseph and the Amazing Technicolor Dreamcoat</h2>
+    <p>This musical was all about colour, rhythm and energy. I programmed layered colour chases and animated rainbow transitions to mirror the energy of each song, while maintaining key focus for solos. The finale was a full-stage spectacle synced perfectly to the music.</p>
+    <button class="close-btn" onclick="closeLightbox('joseph')">Close</button>
+  </div>
+</div>
+
+<div id="lightbox-addams" class="lightbox">
+  <div class="lightbox-content">
+    <h2>The Addams Family</h2>
+    <p>A wonderfully eccentric show that let me play with contrast – eerie purples and greens for the Addams home, and bright pastels for the “normal” world. I used dynamic fades, chase sequences, and subtle haze to create that spooky, theatrical glow the audience loved.</p>
+    <button class="close-btn" onclick="closeLightbox('addams')">Close</button>
+  </div>
+</div>
+
+<div id="lightbox-wimc" class="lightbox">
+  <div class="lightbox-content">
+    <h2>Where is Mrs Christie</h2>
+    <p>A gripping mystery that brought the classic Agatha Christie suspense to life on stage. Lighting was used to emphasise tension, highlight clues, and create a dynamic mood shift between scenes.</p>
+    <button class="close-btn" onclick="closeLightbox('wimc')">Close</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Edward Wilcox. All rights reserved.</p>
+</footer>
+
+<script>
+function openLightbox(id){document.getElementById('lightbox-'+id).style.display='flex';}
+function closeLightbox(id){document.getElementById('lightbox-'+id).style.display='none';}
+</script>
+
 </body>
 </html>
