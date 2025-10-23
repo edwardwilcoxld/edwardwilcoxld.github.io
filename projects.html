@@ -37,6 +37,24 @@ footer img:hover{transform:scale(1.05);}
 .lightbox-content p{color:#ddd;margin-bottom:20px;}
 .close-btn{background:none;border:2px solid #ffdd44;color:#ffdd44;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:1rem;transition:0.3s;}
 .close-btn:hover{background:#ffdd44;color:#000;}
+
+/* Carousel inside lightbox */
+.carousel {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.carousel img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
 </style>
 </head>
 <body>
@@ -52,7 +70,6 @@ footer img:hover{transform:scale(1.05);}
 <section id="shows">
   <h2>Selected Productions</h2>
   <div class="shows">
-    <!-- Each .show block -->
     <div class="show" onclick="openLightbox('christie')">
       <img src="images/Agatha Christie 4.jpg" alt="Agatha Christie Thrillers">
       <h3>Agatha Christie Thrillers</h3>
@@ -82,6 +99,7 @@ footer img:hover{transform:scale(1.05);}
 <!-- Lightboxes -->
 <div id="lightbox-christie" class="lightbox">
   <div class="lightbox-content">
+    <div class="carousel" id="carousel-Agatha Christie "></div>
     <h2>Agatha Christie Thrillers</h2>
     <p>These two plays were an exciting contrast – one set in a sterile hospital, the other in a seaside retreat. Each demanded unique lighting moods: cold blues and clinical whites for one; warm ambers and textured gobos for the other. I used precise cue timing to heighten suspense in every twist.</p>
     <button class="close-btn" onclick="closeLightbox('christie')">Close</button>
@@ -90,6 +108,7 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-joseph" class="lightbox">
   <div class="lightbox-content">
+    <div class="carousel" id="carousel-Joseph "></div>
     <h2>Joseph and the Amazing Technicolor Dreamcoat</h2>
     <p>This musical was all about colour, rhythm and energy. I programmed layered colour chases and animated rainbow transitions to mirror the energy of each song, while maintaining key focus for solos. The finale was a full-stage spectacle synced perfectly to the music.</p>
     <button class="close-btn" onclick="closeLightbox('joseph')">Close</button>
@@ -98,6 +117,7 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-addams" class="lightbox">
   <div class="lightbox-content">
+    <div class="carousel" id="carousel-Addams Family"></div>
     <h2>The Addams Family</h2>
     <p>A wonderfully eccentric show that let me play with contrast – eerie purples and greens for the Addams home, and bright pastels for the “normal” world. I used dynamic fades, chase sequences, and subtle haze to create that spooky, theatrical glow the audience loved.</p>
     <button class="close-btn" onclick="closeLightbox('addams')">Close</button>
@@ -106,6 +126,7 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-wimc" class="lightbox">
   <div class="lightbox-content">
+    <div class="carousel" id="carousel-WIMC "></div>
     <h2>Where is Mrs Christie</h2>
     <p>A gripping mystery that brought the classic Agatha Christie suspense to life on stage. Lighting was used to emphasise tension, highlight clues, and create a dynamic mood shift between scenes.</p>
     <button class="close-btn" onclick="closeLightbox('wimc')">Close</button>
@@ -117,8 +138,47 @@ footer img:hover{transform:scale(1.05);}
 </footer>
 
 <script>
-function openLightbox(id){document.getElementById('lightbox-'+id).style.display='flex';}
-function closeLightbox(id){document.getElementById('lightbox-'+id).style.display='none';}
+let intervals = {};
+
+function openLightbox(id) {
+  document.getElementById('lightbox-' + id).style.display = 'flex';
+  startCarousel(id);
+}
+
+function closeLightbox(id) {
+  document.getElementById('lightbox-' + id).style.display = 'none';
+  stopCarousel(id);
+}
+
+function startCarousel(show) {
+  const container = document.getElementById('carousel-' + show);
+  container.innerHTML = '';
+  const images = [];
+  
+  for (let i = 1; i <= 5; i++) {
+    const img = new Image();
+    img.src = `images/${show}${i}.jpg`;
+    img.onerror = () => {}; // skip missing images
+    img.onload = () => {
+      container.appendChild(img);
+      images.push(img);
+      if (images.length === 1) img.style.opacity = 1;
+    };
+  }
+
+  let index = 0;
+  intervals[show] = setInterval(() => {
+    if (images.length > 1) {
+      images[index].style.opacity = 0;
+      index = (index + 1) % images.length;
+      images[index].style.opacity = 1;
+    }
+  }, 4000);
+}
+
+function stopCarousel(show) {
+  clearInterval(intervals[show]);
+}
 </script>
 
 </body>
