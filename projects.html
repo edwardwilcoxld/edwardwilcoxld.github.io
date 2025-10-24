@@ -38,7 +38,7 @@ footer img:hover{transform:scale(1.05);}
 .close-btn{background:none;border:2px solid #ffdd44;color:#ffdd44;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:1rem;transition:0.3s;}
 .close-btn:hover{background:#ffdd44;color:#000;}
 
-/* Carousel inside lightbox */
+/* Carousel styles */
 .carousel {
   width: 100%;
   height: 200px;
@@ -47,14 +47,29 @@ footer img:hover{transform:scale(1.05);}
   border-radius: 10px;
   margin-bottom: 20px;
 }
-.carousel img {
+.carousel-slide {
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* ensure whole image visible */
+  background: #111;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
+.carousel .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffdd44;
+  font-size: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+.carousel .prev { left: 5px; }
+.carousel .next { right: 5px; }
 </style>
 </head>
 <body>
@@ -99,7 +114,10 @@ footer img:hover{transform:scale(1.05);}
 <!-- Lightboxes -->
 <div id="lightbox-christie" class="lightbox">
   <div class="lightbox-content">
-    <div class="carousel" id="carousel-Agatha Christie "></div>
+    <div class="carousel" id="carousel-christie">
+      <span class="arrow prev">&#10094;</span>
+      <span class="arrow next">&#10095;</span>
+    </div>
     <h2>Agatha Christie Thrillers</h2>
     <p>These two plays were an exciting contrast – one set in a sterile hospital, the other in a seaside retreat. Each demanded unique lighting moods: cold blues and clinical whites for one; warm ambers and textured gobos for the other. I used precise cue timing to heighten suspense in every twist.</p>
     <button class="close-btn" onclick="closeLightbox('christie')">Close</button>
@@ -108,7 +126,10 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-joseph" class="lightbox">
   <div class="lightbox-content">
-    <div class="carousel" id="carousel-Joseph "></div>
+    <div class="carousel" id="carousel-joseph">
+      <span class="arrow prev">&#10094;</span>
+      <span class="arrow next">&#10095;</span>
+    </div>
     <h2>Joseph and the Amazing Technicolor Dreamcoat</h2>
     <p>This musical was all about colour, rhythm and energy. I programmed layered colour chases and animated rainbow transitions to mirror the energy of each song, while maintaining key focus for solos. The finale was a full-stage spectacle synced perfectly to the music.</p>
     <button class="close-btn" onclick="closeLightbox('joseph')">Close</button>
@@ -117,7 +138,10 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-addams" class="lightbox">
   <div class="lightbox-content">
-    <div class="carousel" id="carousel-Addams Family"></div>
+    <div class="carousel" id="carousel-addams">
+      <span class="arrow prev">&#10094;</span>
+      <span class="arrow next">&#10095;</span>
+    </div>
     <h2>The Addams Family</h2>
     <p>A wonderfully eccentric show that let me play with contrast – eerie purples and greens for the Addams home, and bright pastels for the “normal” world. I used dynamic fades, chase sequences, and subtle haze to create that spooky, theatrical glow the audience loved.</p>
     <button class="close-btn" onclick="closeLightbox('addams')">Close</button>
@@ -126,7 +150,10 @@ footer img:hover{transform:scale(1.05);}
 
 <div id="lightbox-wimc" class="lightbox">
   <div class="lightbox-content">
-    <div class="carousel" id="carousel-WIMC "></div>
+    <div class="carousel" id="carousel-wimc">
+      <span class="arrow prev">&#10094;</span>
+      <span class="arrow next">&#10095;</span>
+    </div>
     <h2>Where is Mrs Christie</h2>
     <p>A gripping mystery that brought the classic Agatha Christie suspense to life on stage. Lighting was used to emphasise tension, highlight clues, and create a dynamic mood shift between scenes.</p>
     <button class="close-btn" onclick="closeLightbox('wimc')">Close</button>
@@ -140,6 +167,14 @@ footer img:hover{transform:scale(1.05);}
 <script>
 let intervals = {};
 
+// Define your images here — no renaming needed
+const productionImages = {
+  christie: ["Agatha Christie 2.jpg","Agatha Christie 3.jpg","Agatha Christie 1.jpg","Agatha Christie 4.jpg", "Agatha Christie 5.jpg"],
+  joseph: ["Joseph 1.jpg","Joseph 2.jpg","Joseph 3.jpg"],
+  addams: ["Addams Family.jpg"],
+  wimc: ["WIMC 2.jpg","WIMC 1.jpg"]
+};
+
 function openLightbox(id) {
   document.getElementById('lightbox-' + id).style.display = 'flex';
   startCarousel(id);
@@ -152,27 +187,46 @@ function closeLightbox(id) {
 
 function startCarousel(show) {
   const container = document.getElementById('carousel-' + show);
-  container.innerHTML = '';
+  const prevBtn = container.querySelector('.prev');
+  const nextBtn = container.querySelector('.next');
+
+  container.querySelectorAll('img').forEach(img => img.remove());
+
+  const files = productionImages[show];
   const images = [];
-  
-  for (let i = 1; i <= 5; i++) {
+
+  files.forEach(file => {
     const img = new Image();
-    img.src = `images/${show}${i}.jpg`;
-    img.onerror = () => {}; // skip missing images
+    img.src = "images/" + file;
+    img.className = "carousel-slide";
     img.onload = () => {
-      container.appendChild(img);
+      container.insertBefore(img, nextBtn);
       images.push(img);
       if (images.length === 1) img.style.opacity = 1;
     };
-  }
+  });
 
   let index = 0;
+
+  prevBtn.onclick = () => {
+    if (!images.length) return;
+    images[index].style.opacity = 0;
+    index = (index === 0 ? images.length - 1 : index - 1);
+    images[index].style.opacity = 1;
+  };
+
+  nextBtn.onclick = () => {
+    if (!images.length) return;
+    images[index].style.opacity = 0;
+    index = (index + 1) % images.length;
+    images[index].style.opacity = 1;
+  };
+
   intervals[show] = setInterval(() => {
-    if (images.length > 1) {
-      images[index].style.opacity = 0;
-      index = (index + 1) % images.length;
-      images[index].style.opacity = 1;
-    }
+    if (!images.length) return;
+    images[index].style.opacity = 0;
+    index = (index + 1) % images.length;
+    images[index].style.opacity = 1;
   }, 4000);
 }
 
