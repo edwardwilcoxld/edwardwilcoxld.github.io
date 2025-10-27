@@ -19,36 +19,33 @@ h1{font-size:4rem;letter-spacing:3px;background:linear-gradient(90deg,#f0e68c,#f
 @keyframes nameGlow{0%{background-position:0%50%;opacity:0;transform:scale(0.9);}50%{background-position:100%50%;opacity:1;transform:scale(1);}100%{background-position:0%50%;opacity:1;}}
 p.tagline{font-size:1.2rem;color:#ddd;margin-top:15px;animation:fadeUp 2s ease-in-out 1.5s both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
 /* Gallery */
-.gallery {
-  position: relative;
-  width: 100%;
-  height: 50vh;
-  overflow: hidden;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background: #0a0a0a;
-}
-.gallery img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
+.gallery {position: relative;width: 100%;height: 50vh;overflow: hidden;margin-top: 40px;margin-bottom: 40px;background: #0a0a0a;}
+.gallery img {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);max-width: 100%;max-height: 100%;object-fit: contain;opacity: 0;transition: opacity 1s ease-in-out;}
 
 section{padding:60px 20px;text-align:center;}
 section h2{font-size:2.5rem;margin-bottom:40px;position:relative;display:inline-block;}
 section h2::after{content:"";position:absolute;bottom:-10px;left:50%;width:60px;height:3px;background:#ffdd44;transform:translateX(-50%);}
 .bio-text{font-size:1.1rem;line-height:1.6;color:#ddd;max-width:800px;margin:0 auto;animation:fadeIn 2s ease-in-out 2s both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* Footer */
 footer{background:#111;padding:40px 0;text-align:center;font-size:0.9rem;color:#bbb;}
 footer img{transition:transform 0.3s ease;}
 footer img:hover{transform:scale(1.05);}
+
+/* Fade overlay for smooth page transitions */
+#fade-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #0a0a0a;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 9999;
+}
 </style>
 </head>
 <body>
@@ -57,13 +54,13 @@ footer img:hover{transform:scale(1.05);}
   <nav>
     <a href="index.html">Home</a>
     <a href="projects.html">Projects</a>
+    <a href="colourstudio.html">Colour Studio</a>
   </nav>
   <div class="light-beam"></div>
   <h1>Edward Wilcox</h1>
   <p class="tagline">Lighting Designer | Programmer | Technician</p>
-
-
 </header>
+
 <!-- Gallery -->
 <div class="gallery" id="gallery"></div>
 
@@ -72,19 +69,21 @@ footer img:hover{transform:scale(1.05);}
   <p class="bio-text">
     I’m a GCSE student with a passion for theatrical lighting design. As Co-Lighting Designer at my school in Oxfordshire, I create lighting for productions such as 'Joseph and the Amazing Technicolor Dreamcoat', 'The Addams Family', and the upcoming 'Legally Blonde'. I specialise in board programming, rigging, and creating effects using the Zero88 FLX S48 and ETC Ion XE 20 consoles.
   </p>
-  <br>
+<br>
   <p class="bio-text">
     Outside of school, I volunteer at my local community theatre, working alongside experienced technicians and designers. This lets me develop my skills in programming, rigging, and show operation, all while adapting to the fast-paced world of live performance.
   </p>
-  <br>
+<br>
+  
   <p class="bio-text">
     Music has always been a big part of my life. I play the drums and dabble in piano, and this background gives me a natural sense of rhythm and timing. It’s especially valuable when programming cues for musicals and synchronising lights with music.
   </p>
-  <br>
+<br>
+  
   <p class="bio-text">
     I also train new members of my school lighting team, teaching them how to confidently run live shows from initial ideas to polished performances. Sharing my knowledge is something I really enjoy, and I also learn fresh techniques and ideas from the team.
   </p>
-  <br>
+<br>
   <p class="bio-text">
     I’m dedicated to developing my craft as a lighting designer. With experience in both school and community theatre, and a strong musical background, my goal is to study lighting design further and build a career in the industry.
   </p>
@@ -98,53 +97,29 @@ footer img:hover{transform:scale(1.05);}
   <p>© 2025 Edward Wilcox. All rights reserved.</p>
 </footer>
 
+<div id="fade-overlay"></div>
+
 <script>
-// Gallery images
+// Gallery slideshow
 const galleryImages = [
-  "images/Agatha Christie 1.jpg",
-  "images/Agatha Christie 2.jpg",
-  "images/Agatha Christie 3.jpg",
-  "images/Agatha Christie 4.jpg",
-  "images/Agatha Christie 5.jpg",
-  "images/Joseph 1.jpg",
-  "images/Joseph 2.jpg",
-  "images/Joseph 3.jpg",
-  "images/Addams Family.jpg",
-  "images/WIMC 1.jpg",
-  "images/WIMC 2.jpg"
+  "images/Agatha Christie 1.jpg","images/Agatha Christie 2.jpg","images/Agatha Christie 3.jpg",
+  "images/Agatha Christie 4.jpg","images/Agatha Christie 5.jpg","images/Joseph 1.jpg",
+  "images/Joseph 2.jpg","images/Joseph 3.jpg","images/Addams Family.jpg",
+  "images/WIMC 1.jpg","images/WIMC 2.jpg"
 ];
 
-// Shuffle images
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
+function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()* (i+1));[array[i],array[j]]=[array[j],array[i]];}return array;}
 const galleryContainer = document.getElementById('gallery');
 let images = [];
-galleryImages.forEach(src => {
-  const img = document.createElement('img');
-  img.src = src;
-  galleryContainer.appendChild(img);
-  images.push(img);
-});
+galleryImages.forEach(src => {const img = document.createElement('img'); img.src = src; galleryContainer.appendChild(img); images.push(img);});
 images = shuffle(images);
-let current = 0;
-images[current].style.opacity = 1;
+let current = 0; images[current].style.opacity = 1;
 
-setInterval(() => {
-  images[current].style.opacity = 0;
-  current = (current + 1) % images.length;
-  images[current].style.opacity = 1;
-}, 4000);
-</script>
+setInterval(() => {images[current].style.opacity = 0; current = (current + 1) % images.length; images[current].style.opacity = 1;},4000);
 
-<script>
+// Smooth scroll (existing)
 function smoothScrollTo(element, duration = 1000, offset = 50) {
-  const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - offset; // offset for higher scroll
+  const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
   const startPosition = window.pageYOffset;
   const distance = targetPosition - startPosition;
   let startTime = null;
@@ -157,23 +132,25 @@ function smoothScrollTo(element, duration = 1000, offset = 50) {
     if (timeElapsed < duration) requestAnimationFrame(animation);
   }
 
-  function ease(t, b, c, d) {
-    t /= d / 2;
-    if (t < 1) return c / 2 * t * t + b;
-    t--;
-    return -c / 2 * (t * (t - 2) - 1) + b;
-  }
-
+  function ease(t,b,c,d){t/=d/2;if(t<1)return c/2*t*t+b;t--;return -c/2*(t*(t-2)-1)+b;}
   requestAnimationFrame(animation);
 }
 
-// Trigger scroll after page load
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const gallery = document.getElementById('gallery');
-    if (gallery) smoothScrollTo(gallery, 1000, 75); // adjust offset if needed
-  }, 5000); // waits 5s for your name animation
+window.addEventListener('load',()=>{setTimeout(()=>{const gallery=document.getElementById('gallery');if(gallery)smoothScrollTo(gallery,1000,75);},5000);});
+
+// Page transition fade-out
+const fadeOverlay = document.getElementById('fade-overlay');
+document.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const href = link.getAttribute('href');
+    if(!href.startsWith('#') && href !== ''){
+      e.preventDefault();
+      fadeOverlay.style.opacity = 1;
+      setTimeout(()=>{window.location = href;},600);
+    }
+  });
 });
+window.addEventListener('load',()=>{fadeOverlay.style.transition='opacity 0.6s ease-in-out'; fadeOverlay.style.opacity = 0;});
 </script>
 
 </body>
