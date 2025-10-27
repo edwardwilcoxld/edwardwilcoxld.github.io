@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Colour Studio – Edward Wilcox</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Navigation bar */
+nav {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+nav a {
+  color: #ffdd44;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+nav a:hover { color: #fff; }
+
+/* Footer */
+footer {
+  background: #111;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #bbb;
+  width: 100%;
+}
+footer img { transition: transform 0.3s ease; }
+footer img:hover { transform: scale(1.05); }
+
+/* Header animation */
+h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #f0e68c, #ffdd44, #f0e68c);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: nameGlow 2s ease-in-out forwards;
+}
+@keyframes nameGlow {
+  0% {background-position:0%50%;opacity:0;transform:scale(0.9);}
+  50% {background-position:100%50%;opacity:1;transform:scale(1);}
+  100% {background-position:0%50%;opacity:1;}
+}
+
+/* Intro paragraph */
+.intro-text {
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 30px;
+  color: #ffdd44;
+  opacity: 0;
+  animation: fadeInText 1s ease-in-out 1s forwards; 
+  line-height: 1.4;
+}
+.highlight { color: #fff; }
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+/* Colour wheel */
+canvas {
+  cursor: crosshair;
+  max-width: 90vw;
+  height: auto;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeInWheel 1s ease-in-out 2s forwards;
+}
+@keyframes fadeInWheel { from {opacity:0;} to {opacity:1;} }
+
+/* Colour dots bar */
+#colour-bar {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeInDots 1s ease-in-out 3s forwards;
+}
+@keyframes fadeInDots { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+
+.colour-dot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.colour-dot {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #222;
+  margin-bottom: 5px;
+  border: none;
+}
+.colour-values {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #ffdd44;
+  line-height: 1.2;
+}
+
+/* Manual input boxes */
+#manual-inputs {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeInDots 1s ease-in-out 3s forwards;
+}
+#manual-inputs input {
+  background: #111;
+  border: 1px solid #ffdd44;
+  color: #ffdd44;
+  padding: 5px;
+  font-size: 1rem;
+  width: 120px;
+}
+#manual-inputs label { display: block; font-size: 0.9rem; margin-bottom: 3px; }
+
+/* Fade overlay for smooth page transitions */
+#fade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 9999;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="index.html">Home</a>
+  <a href="projects.html">Projects</a>
+  <a href="colourstudio.html">Colour Studio</a>
+</nav>
+
+<h1>Colour Studio</h1>
+<p class="intro-text">
+  This tool helps lighting designers explore colour combinations. Click or drag on the colour wheel to select a base hue, and see complementary and related colours displayed below with their RGB and HEX values. You can also manually enter RGB or HEX values to test colours quickly.
+</p>
+
+<canvas id="wheel" width="400" height="400"></canvas>
+<div id="colour-bar"></div>
+
+<div id="manual-inputs">
+  <div>
+    <label for="rgbInput">RGB</label>
+    <input type="text" id="rgbInput" placeholder="255,0,0">
+  </div>
+  <div>
+    <label for="hexInput">HEX</label>
+    <input type="text" id="hexInput" placeholder="#FF0000">
+  </div>
+</div>
+
+<footer>
+  <p>View my professional profile on the Association of Lighting Production and Design:</p>
+  <a href="https://www.thealpd.org.uk/EdwardWilcox">
+    <img src="https://www.thealpd.org.uk/sites/default/files/ALPD_badge.png" width="166px" height="89px" style="margin: 10px">
+  </a>
+  <p>© 2025 Edward Wilcox. All rights reserved.</p>
+</footer>
+
+<div id="fade-overlay"></div>
+
+<script>
+/* Colour wheel setup */
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const radius = canvas.width/2;
+const cx = radius;
+const cy = radius;
+
+function drawWheel() {
+  const image = ctx.createImageData(canvas.width, canvas.height);
+  for(let x=0;x<canvas.width;x++){
+    for(let y=0;y<canvas.height;y++){
+      const dx = x-cx, dy = y-cy;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist <= radius){
+        let angle = Math.atan2(dy,dx);
+        if(angle<0) angle+=2*Math.PI;
+        const hue = angle*180/Math.PI;
+        const sat = dist/radius;
+        const rgb = hsvToRgb(hue,sat,1);
+        const idx=(y*canvas.width+x)*4;
+        image.data[idx]=rgb[0];
+        image.data[idx+1]=rgb[1];
+        image.data[idx+2]=rgb[2];
+        image.data[idx+3]=255;
+      }
+    }
+  }
+  ctx.putImageData(image,0,0);
+}
+
+function hsvToRgb(h,s,v){
+  let c=v*s;
+  let x=c*(1-Math.abs((h/60)%2-1));
+  let m=v-c;
+  let r=0,g=0,b=0;
+  if(h<60){r=c;g=x;b=0;}
+  else if(h<120){r=x;g=c;b=0;}
+  else if(h<180){r=0;g=c;b=x;}
+  else if(h<240){r=0;g=x;b=c;}
+  else if(h<300){r=x;g=0;b=c;}
+  else {r=c;g=0;b=x;}
+  return [Math.round((r+m)*255),Math.round((g+m)*255),Math.round((b+m)*255)];
+}
+
+function rgbToHex([r,g,b]){
+  return "#" + ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1).toUpperCase();
+}
+
+function getRelatedHues(h){
+  return [(h+180)%360,(h+120)%360,(h+240)%360,(h+30)%360,(h+330)%360];
+}
+
+const colourBar = document.getElementById('colour-bar');
+
+function showColours(baseHue){
+  colourBar.innerHTML='';
+  const hues = [baseHue,...getRelatedHues(baseHue)];
+  hues.forEach(h=>{
+    const rgb=hsvToRgb(h,1,1);
+    const hex=rgbToHex(rgb);
+    const container=document.createElement('div');
+    container.className='colour-dot-container';
+    const dot=document.createElement('div');
+    dot.className='colour-dot';
+    dot.style.backgroundColor=`rgb(${rgb.join(',')})`;
+    const values=document.createElement('div');
+    values.className='colour-values';
+    values.innerHTML=`RGB(${rgb.join(',')})<br>${hex}`;
+    container.appendChild(dot);
+    container.appendChild(values);
+    colourBar.appendChild(container);
+  });
+}
+
+// Dragging for real-time selection
+let dragging=false;
+canvas.addEventListener('mousedown',()=>dragging=true);
+canvas.addEventListener('mouseup',()=>dragging=false);
+canvas.addEventListener('mouseleave',()=>dragging=false);
+canvas.addEventListener('mousemove',e=>{ if(dragging) handleClick(e); });
+canvas.addEventListener('click',handleClick);
+
+function handleClick(e){
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left - cx;
+  const y = e.clientY - rect.top - cy;
+  const dist = Math.sqrt(x*x+y*y);
+  if(dist>radius) return;
+  let angle = Math.atan2(y,x);
+  if(angle<0) angle+=2*Math.PI;
+  const hue = angle*180/Math.PI;
+  showColours(hue);
+}
+
+// Manual input
+const rgbInput = document.getElementById('rgbInput');
+const hexInput = document.getElementById('hexInput');
+
+rgbInput.addEventListener('change',()=>{
+  const vals = rgbInput.value.split(',').map(v=>parseInt(v.trim()));
+  if(vals.length===3 && vals.every(v=>v>=0 && v<=255)){
+    const [r,g,b]=vals;
+    showColours(rgbToHue(r,g,b));
+  }
+});
+
+hexInput.addEventListener('change',()=>{
+  let val = hexInput.value.trim();
+  if(val[0]==='#') val=val.slice(1);
+  if(val.length===6){
+    const r=parseInt(val.slice(0,2),16);
+    const g=parseInt(val.slice(2,4),16);
+    const b=parseInt(val.slice(4,6),16);
+    showColours(rgbToHue(r,g,b));
+  }
+});
+
+// Helper to convert RGB to approximate hue
+function rgbToHue(r,g,b){
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let hue;
+  if(max===min) hue=0;
+  else if(max===r) hue=(60*((g-b)/(max-min))+360)%360;
+  else if(max===g) hue=(60*((b-r)/(max-min))+120)%360;
+  else hue=(60*((r-g)/(max-min))+240)%360;
+  return hue;
+}
+
+drawWheel();
+
+/* Page transition fade-out */
+const fadeOverlay = document.getElementById('fade-overlay');
+
+document.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    if (!href.startsWith('#') && href !== '') {
+      e.preventDefault();
+      fadeOverlay.style.opacity = 1;
+      setTimeout(() => { window.location = href; }, 600);
+    }
+  });
+});
+
+window.addEventListener('load', () => {
+  fadeOverlay.style.transition = 'opacity 0.6s ease-in-out';
+  fadeOverlay.style.opacity = 0;
+});
+</script>
+
+</body>
+</html>
