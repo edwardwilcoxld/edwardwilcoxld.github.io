@@ -91,6 +91,12 @@ footer img:hover{transform:scale(1.05);}
       <h3>Where is Mrs Christie</h3>
       <p>A one-woman show detailing the mystery of the disapperance of the world's most prolific murder mystery author, Agatha Christie.</p>
     </div>
+    <div class="show" onclick="openLightbox('ll25')">
+      <img src="images/LL25 3.jpg" alt="Live Lounge 2025">
+      <h3>Live Lounge 2025</h3>
+      <p>A showcase of the school's best performing arts students presented through a singing event.</p>
+    </div>
+
   </div>
 </section>
 
@@ -127,6 +133,15 @@ footer img:hover{transform:scale(1.05);}
     <button class="close-btn" onclick="closeLightbox('wimc')">Close</button>
   </div>
 </div>
+<div id="lightbox-ll25" class="lightbox">
+  <div class="lightbox-content">
+    <div class="carousel" id="carousel-ll25"><span class="arrow prev">&#10094;</span><span class="arrow next">&#10095;</span></div>
+    <h2>Live Lounge 2025</h2>
+    <p>'Live Lounge' is a school event where KS4 and KS5 singers can showcase their talents. I was lucky enough to be able to light some of the wonderful singers to create a much more professional atmosphere to the event (and make the singers look and feel wonderful!).</p>
+    <button class="close-btn" onclick="closeLightbox('ll25')">Close</button>
+  </div>
+</div>
+
 
 <footer>
   <p>View my professional profile on the Association of Lighting Production and Design:</p>
@@ -144,7 +159,8 @@ const productionImages = {
   christie: ["Agatha Christie 2.jpg","Agatha Christie 3.jpg","Agatha Christie 1.jpg","Agatha Christie 4.jpg","Agatha Christie 5.jpg"],
   joseph: ["Joseph 1.jpg","Joseph 2.jpg","Joseph 3.jpg"],
   addams: ["Addams Family.jpg"],
-  wimc: ["WIMC 2.jpg","WIMC 1.jpg"]
+  wimc: ["WIMC 2.jpg","WIMC 1.jpg"],
+  ll25: ["LL25 2.jpg", "LL25 3.jpg", "LL25 5.jpg", "LL25 6.jpg", "LL25 7.jpg", "LL25 9.jpg", "LL25 10.jpg", "LL25 11.jpg", ]
 };
 
 function openLightbox(id) {
