@@ -96,7 +96,11 @@ footer img:hover{transform:scale(1.05);}
       <h3>Live Lounge 2025</h3>
       <p>A showcase of the school's best performing arts students presented through a singing event.</p>
     </div>
-
+    <div class="show" onclick="openLightbox('tbs')">
+      <img src="images/TBS 1.jpg" alt="The Bootleg Shadows">
+      <h3>The Bootleg Shadows</h3>
+      <p>A live tribute show celebrating the iconic sound of The Shadows</p>
+    </div>
   </div>
 </section>
 
@@ -139,8 +143,21 @@ footer img:hover{transform:scale(1.05);}
     <h2>Live Lounge 2025</h2>
     <p>'Live Lounge' is a school event where KS4 and KS5 singers can showcase their talents. I was lucky enough to be able to light some of the wonderful singers to create a much more professional atmosphere to the event (and make the singers look and feel wonderful!).</p>
     <button class="close-btn" onclick="closeLightbox('ll25')">Close</button>
+      </div>
+    </div>
+    <div id="lightbox-tbs" class="lightbox">
+      <div class="lightbox-content">
+        <div class="carousel" id="carousel-tbs">
+          <span class="arrow prev">&#10094;</span>
+          <span class="arrow next">&#10095;</span>
+        </div>
+        <h2>The Bootleg Shadows</h2>
+        <p>This tribute show featured stylised colour choices inspired by the original touring rigs of The Shadows. The lighting was designed and programmed entirely live for this performance which was a beautifully creative challenge for me.</p>
+        <button class="close-btn" onclick="closeLightbox('tbs')">Close</button>
+      </div>
   </div>
-</div>
+	
+
 
 
 <footer>
@@ -160,7 +177,25 @@ const productionImages = {
   joseph: ["Joseph 1.jpg","Joseph 2.jpg","Joseph 3.jpg"],
   addams: ["Addams Family.jpg"],
   wimc: ["WIMC 2.jpg","WIMC 1.jpg"],
-  ll25: ["LL25 2.jpg", "LL25 3.jpg", "LL25 5.jpg", "LL25 6.jpg", "LL25 7.jpg", "LL25 9.jpg", "LL25 10.jpg", "LL25 11.jpg", ]
+  ll25: ["LL25 2.jpg", "LL25 3.jpg", "LL25 5.jpg", "LL25 6.jpg", "LL25 7.jpg", "LL25 9.jpg", "LL25 10.jpg", "LL25 11.jpg", ],
+  tbs: [
+  "TBS 1.jpg",
+  "TBS 3.jpg",
+  "TBS 4.jpg",
+  "TBS 5.jpg",
+  "TBS 6.jpg",
+  "TBS 7.jpg",
+  "TBS 8.jpg",
+  "TBS 9.jpg",
+  "TBS 10.jpg",
+  "TBS 11.jpg",
+  "TBS 12.jpg",
+  "TBS 13.jpg",
+  "TBS 14.jpg",
+  "TBS 15.jpg",
+  "TBS 16.jpg"
+],
+
 };
 
 function openLightbox(id) {
